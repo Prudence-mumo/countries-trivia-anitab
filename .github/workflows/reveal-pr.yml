@@ -1,0 +1,31 @@
+name: Reveal PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  reveal:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reveal PR with OpenCode
+        uses: ai-dynamo/opencode-action@v1
+        with:
+          model: big-pickle
+          prompt: |
+            Review this pull request and provide a concise summary:
+            - What changes were made
+            - Any potential issues or risks
+            - Whether tests pass and code quality is acceptable
+            - Suggestions for improvement
+        env:
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+oc_sk_030cabd25629_LOgR8tSj3d0Ct-VD83VBF51PYoUjQ1Yh
